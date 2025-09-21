@@ -167,6 +167,25 @@ static void	copy_lines(char **dst, char **src, int count)
 		dst[i] = src[i];
 }
 
+char	gnl_trimmed(int fd, char **line)
+{
+	char	*tmp;
+
+	if (!line)
+		return (0);
+	tmp = get_next_line(fd);
+	if (!tmp)
+	{
+		*line = NULL;
+		return (0);
+	}
+	*line = ft_strtrim(tmp, "\n");
+	free (tmp);
+	if (!*line)
+		return (0);
+	return (1);
+}
+
 char	**read_all_lines(int fd, int *count)
 {
 	char	**lines;
@@ -175,7 +194,7 @@ char	**read_all_lines(int fd, int *count)
 
 	lines = NULL;
 	*count = 0;
-	while (line = ft_strtrim(get_next_line(fd), "\n"))
+	while (gnl_trimmed(fd, &line))
 	{
 		tmp = malloc(sizeof(char *) * (*count + 2));
 		if (!tmp)

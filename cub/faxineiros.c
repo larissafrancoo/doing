@@ -82,6 +82,11 @@ void	free_all(t_game *g)
 	if (!g)
 		return ;
 	destroi_texs(g);
+	if (g->img.img)
+	{
+		mlx_destroy_image(g->mlx, g->img.img);
+		g->img.img = NULL;
+	}
 	free_map(&g->map);
 	free_config(&g->config);
 	free_player(&g->player);

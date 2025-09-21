@@ -10,10 +10,10 @@ int	parse_config(char **lines, int start_map, t_config *config)
 		if (lines[i][0] && is_config_line(lines[i]))
 		{
 			if (parse_line(lines[i], config))
-				return (EXIT_FAILURE);
+				return (EXIT_F);
 		}
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_S);
 }
 
 void	free_split(char **s)
@@ -34,8 +34,8 @@ static int	validate_rgb(t_color *c)
 		|| (c->g < 0 || c->g > 255)
 		|| (c->b < 0 || c->b > 255))
 		return (error_msg("Error\nRGB out of range (0-255).",
-				EXIT_FAILURE));
-	return (EXIT_SUCCESS);
+				EXIT_F));
+	return (EXIT_S);
 }
 
 int	parse_cor(char *line, t_color *c)
@@ -44,11 +44,11 @@ int	parse_cor(char *line, t_color *c)
 
 	if (!line || !c)
 		return (error_msg("Error\nColor parsing failed.",
-				EXIT_FAILURE));
+				EXIT_F));
 	rgb = ft_split(line, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 		return (error_msg("Error\nInvalid color format.",
-				EXIT_FAILURE));
+				EXIT_F));
 	c->r = ft_atoi(rgb[0]);
 	c->g = ft_atoi(rgb[1]);
 	c->b = ft_atoi(rgb[2]);
@@ -116,8 +116,8 @@ static int	line_texture(char **tokens, t_config *c)
 	else if (!ft_strcmp(tokens[0], "EA") && !c->tex.ea)
 		c->tex.ea = parse_texture(tokens[1]);
 	else
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (EXIT_F);
+	return (EXIT_S);
 }
 
 static int	line_color(char **tokens, t_config *c)
@@ -126,7 +126,7 @@ static int	line_color(char **tokens, t_config *c)
 		return (parse_cor(tokens[1], &c->chao));
 	else if (!ft_strcmp(tokens[0], "C"))
 		return (parse_cor(tokens[1], &c->teto));
-	return (EXIT_FAILURE);
+	return (EXIT_F);
 }
 
 int	parse_line(char *line, t_config *c)
@@ -134,14 +134,14 @@ int	parse_line(char *line, t_config *c)
 	char	**tokens;
 	int		ret;
 
-	ret = EXIT_SUCCESS;
+	ret = EXIT_S;
 	tokens = ft_split(line, ' ');
 	if (!tokens || !tokens[0])
 		return (error_msg("Error\nInvalid c line.",
-				EXIT_FAILURE));
+				EXIT_F));
 	if (line_texture(tokens, c) && line_color(tokens, c))
 		ret = error_msg("Error\nDuplicate or invalid "
-				"identifier in .cub.", EXIT_FAILURE);
+				"identifier in .cub.", EXIT_F);
 	free_split(tokens);
 	return (ret);
 }
@@ -198,21 +198,21 @@ int	open_cub(t_game *g, const char *path)
 	int		start_map;
 
 	if (!g || !path)
-		return (error_msg("Error\nInvalid args in open_cub.", EXIT_FAILURE));
+		return (error_msg("Error\nInvalid args in open_cub.", EXIT_F));
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (error_msg("Error\nFailed to open .cub file.", EXIT_FAILURE));
+		return (error_msg("Error\nFailed to open .cub file.", EXIT_F));
 	lines = read_all_lines(fd, &lcount);
 	close(fd);
 	if (!lines)
-		return (error_msg("Error\nReading .cub failed.", EXIT_FAILURE));
+		return (error_msg("Error\nReading .cub failed.", EXIT_F));
 	start_map = find_map_start(lines, lcount);
 	if (start_map == -1)
 		return (free_lines(lines, lcount),
-			error_msg("Error\nNo map found in .cub.", EXIT_FAILURE));
+			error_msg("Error\nNo map found in .cub.", EXIT_F));
 	if (parse_config(lines, start_map, &g->config)
 		|| parse_map(lines, start_map, &g->map, &g->player)
 		|| validar_mapa(&g->map, &g->player))
-		return (free_lines(lines, lcount), EXIT_FAILURE);
-	return (free_lines(lines, lcount), EXIT_SUCCESS);
+		return (free_lines(lines, lcount), EXIT_F);
+	return (free_lines(lines, lcount), EXIT_S);
 }

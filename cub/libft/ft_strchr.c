@@ -30,16 +30,3 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s2[i]);
 	return (NULL);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-	char *s = "\0";
-	int c = 'l';
-
-	printf("Jack Sparrow: %s - Endereço: %p \n", ft_strchr(s, c), ft_strchr(s, c));
-	printf("Original    : %s - Endereço: %p \n", strchr(s, c), strchr(s, c));
-	return (0);
-}*/

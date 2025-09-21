@@ -1,0 +1,13 @@
+NO ./texturas/direc/norte.xpm
+SO ./texturas/direc/sul.xpm
+WE ./texturas/direc/oeste.xpm
+EA ./texturas/direc/leste.xpm
+
+F 220,100,0
+C 90,150,195
+
+111111
+100001
+10S001
+100001
+111111

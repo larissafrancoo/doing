@@ -48,7 +48,7 @@ void	free_config(t_config *c)
 	c->tex.ea = NULL;
 }
 
-void	destroi_texs(t_game *g)
+void	destroy_texs(t_game *g)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ void	free_all(t_game *g)
 {
 	if (!g)
 		return ;
-	destroi_texs(g);
+	destroy_texs(g);
 	if (g->img.img)
 	{
 		mlx_destroy_image(g->mlx, g->img.img);

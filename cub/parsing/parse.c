@@ -38,7 +38,7 @@ static int	validate_rgb(t_color *c)
 	return (EXIT_S);
 }
 
-int	parse_cor(char *line, t_color *c)
+int	parse_color(char *line, t_color *c)
 {
 	char	**rgb;
 
@@ -123,9 +123,9 @@ static int	line_texture(char **tokens, t_config *c)
 static int	line_color(char **tokens, t_config *c)
 {
 	if (!ft_strcmp(tokens[0], "F"))
-		return (parse_cor(tokens[1], &c->chao));
+		return (parse_color(tokens[1], &c->floor));
 	else if (!ft_strcmp(tokens[0], "C"))
-		return (parse_cor(tokens[1], &c->teto));
+		return (parse_color(tokens[1], &c->cell));
 	return (EXIT_F);
 }
 
@@ -231,7 +231,7 @@ int	open_cub(t_game *g, const char *path)
 			error_msg("Error\nNo map found in .cub.", EXIT_F));
 	if (parse_config(lines, start_map, &g->config)
 		|| parse_map(lines, start_map, &g->map, &g->player)
-		|| validar_mapa(&g->map, &g->player))
+		|| validate_map(&g->map, &g->player))
 		return (free_lines(lines, lcount), EXIT_F);
 	return (free_lines(lines, lcount), EXIT_S);
 }

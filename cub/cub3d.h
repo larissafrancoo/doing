@@ -32,7 +32,7 @@
 # define EXIT_F 1
 # define EXIT_S 0
 
-typedef struct s_raio
+typedef struct s_ray
 {
 	double	cam_x;
 	double	r_dir_x;
@@ -56,7 +56,7 @@ typedef struct s_raio
 	int		tx_y;
 	double	tx_pos;
 	double	step;
-}	t_raio;
+}	t_ray;
 
 typedef struct s_infos
 {
@@ -82,13 +82,13 @@ typedef struct s_textura
 	char	*so;
 	char	*we;
 	char	*ea;
-}	t_textura;
+}	t_texture;
 
 typedef struct s_config
 {
-	t_color			chao;
-	t_color			teto;
-	t_textura		tex;
+	t_color			floor;
+	t_color			cell;
+	t_texture		tex;
 }	t_config;
 
 typedef struct s_player
@@ -126,8 +126,8 @@ int		find_map_start(char **lines, int lcount);
 int		parse_config(char **lines, int start_map, t_config *config);
 int		parse_line(char *line, t_config *config);
 int		parse_map(char **lines, int start, t_map *map, t_player *player);
-int		validar_mapa(t_map *map, t_player *player);
-int		check_integridade(t_game *g);
+int		validate_map(t_map *map, t_player *player);
+int		check_integrity(t_game *g);
 int		load_tex(t_game *g, t_infos *tex, char *path);
 int		load_all_texs(t_game *g);
 int		setup_game(t_game *g, const char *path);
@@ -138,34 +138,33 @@ int		is_valid_char(char c);
 char	*lines_strdup(const char *s);
 int		is_config_line(char *line);
 int		validate_after_map(char **lines, int start_map, int lcount);
-int		press_key(int keycode, t_game *game);
 int		render_frame(t_game *g);
 int		error_exit(t_game *g, const char *msg, int code);
 void	free_map(t_map *m);
 void	free_config(t_config *c);
 void	free_player(t_player *p);
 void	free_all(t_game *g);
-void	destroi_texs(t_game *g);
+void	destroy_texs(t_game *g);
 int		close_game(t_game *g);
 int		game_over(t_game *g);
 int		error_msg(const char *msg, int code);
 void	free_split(char **s);
-void	my_mlx_pixel_put(t_infos *dado, int x, int y, int color);
-void	desenha_linha_vert(t_game *g, int x, int start, int end, int cor);
+void	my_mlx_pixel_put(t_infos *data, int x, int y, int color);
+void	draw_h_line(t_game *g, int x, int start, int end, int cor);
 int		rgb_to_int(t_color c);
-int		prepara_frame(t_game *g);
-void	limpa_bkg(t_game *g);
-void	calc_direction(t_game *g, int x, t_raio *r);
-void	calc_delta(t_raio *r);
-void	calc_passos(t_game *g, t_raio *r);
-void	inicializar_raio(t_game *g, int x, t_raio *r);
-void	dar_passo(t_raio *r);
-void	exec_dda(t_game *g, t_raio *r);
-void	calc_linha(t_raio *r);
-void	escolher_tex(t_raio *r);
-double	calc_wall_x(t_game *g, t_raio *r);
-void	calc_tex(t_game *g, t_raio *r, double wX);
-void	draw_wall(t_game *g, int x, t_raio *r);
+int		prepare_frame(t_game *g);
+void	clean_bkg(t_game *g);
+void	calc_direction(t_game *g, int x, t_ray *r);
+void	calc_delta(t_ray *r);
+void	calc_steps(t_game *g, t_ray *r);
+void	ray_initialize(t_game *g, int x, t_ray *r);
+void	take_step(t_ray *r);
+void	exec_dda(t_game *g, t_ray *r);
+void	calc_line(t_ray *r);
+void	choose_tex(t_ray *r);
+double	calc_wall_x(t_game *g, t_ray *r);
+void	calc_tex(t_game *g, t_ray *r, double wX);
+void	draw_wall(t_game *g, int x, t_ray *r);
 int		render_frame(t_game *g);
 
 #endif

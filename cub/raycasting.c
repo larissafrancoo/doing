@@ -1,26 +1,25 @@
 #include "cub3d.h"
 
-/*podemos transformar esse função em int para que possa retornar em caso de erro*/
-void	my_mlx_pixel_put(t_infos *dado, int x, int y, int color)
+void	my_mlx_pixel_put(t_infos *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (!dado || !dado->addr)
+	if (!data || !data->addr)
 		return ;
 	if (x < 0 || y < 0 || x >= WIN_W || y >= WIN_H)
 		return ;
-	dst = dado->addr + (y * dado->line_len + x * (dado->bpp / 8));
+	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
-void	desenha_linha_vert(t_game *g, int x, int start, int end, int cor)
+void	draw_h_line(t_game *g, int x, int start, int end, int color)
 {
 	int	y;
 
 	y = start;
 	while (y <= end)
 	{
-		my_mlx_pixel_put(&g->img, x, y, cor);
+		my_mlx_pixel_put(&g->img, x, y, color);
 		y++;
 	}
 }
@@ -30,31 +29,30 @@ int	rgb_to_int(t_color c)
 	return ((c.r << 16) | (c.g << 8) | c.b);
 }
 
-int	prepara_frame(t_game *g)
+int	prepare_frame(t_game *g)
 {
 	if (g->img.img)
 		mlx_destroy_image(g->mlx, g->img.img);
 	g->img.img = mlx_new_image(g->mlx, WIN_W, WIN_H);
 	if (!g->img.img)
-		return (error_msg("Error\n[prepara_frame] Falha ao criar nova imgaem.",
+		return (error_msg("Error\nFailed to create new image.",
 				EXIT_F));
 	g->img.addr = mlx_get_data_addr(g->img.img,
 			&g->img.bpp, &g->img.line_len, &g->img.endian);
 	if (!g->img.addr)
-		return (error_msg("Error\n[prepara_frame] Falha ao pegar"
-				"addr da imgaem.", EXIT_F));
+		return (error_msg("Error\nFailed to get addr", EXIT_F));
 	return (EXIT_S);
 }
 
-void	limpa_bkg(t_game *g)
+void	clean_bkg(t_game *g)
 {
 	int	x;
 	int	y;
 	int	c;
 	int	t;
 
-	c = rgb_to_int(g->config.chao);
-	t = rgb_to_int(g->config.teto);
+	c = rgb_to_int(g->config.floor);
+	t = rgb_to_int(g->config.cell);
 	y = -1;
 	while (++y < WIN_H / 2)
 	{
@@ -71,7 +69,7 @@ void	limpa_bkg(t_game *g)
 	}
 }
 
-void	calc_direction(t_game *g, int x, t_raio *r)
+void	calc_direction(t_game *g, int x, t_ray *r)
 {
 	r->cam_x = 2 * x / (double)WIN_W - 1;
 	r->r_dir_x = g->player.dx + g->player.px * r->cam_x;
@@ -80,7 +78,7 @@ void	calc_direction(t_game *g, int x, t_raio *r)
 	r->map_y = (int)g->player.y;
 }
 
-void	calc_delta(t_raio *r)
+void	calc_delta(t_ray *r)
 {
 	if (r->r_dir_x == 0)
 		r->delt_dis_x = 1e30;
@@ -92,7 +90,7 @@ void	calc_delta(t_raio *r)
 		r->delt_dis_y = fabs(1 / r->r_dir_y);
 }
 
-void	calc_passos(t_game *g, t_raio *r)
+void	calc_steps(t_game *g, t_ray *r)
 {
 	r->step_x = 1;
 	r->step_y = 1;
@@ -112,15 +110,15 @@ void	calc_passos(t_game *g, t_raio *r)
 		r->sid_dis_y = (r->map_y + 1.0 - g->player.y) * r->delt_dis_y;
 }
 
-void	inicializar_raio(t_game *g, int x, t_raio *r)
+void	ray_initialize(t_game *g, int x, t_ray *r)
 {
 	calc_direction(g, x, r);
 	calc_delta(r);
-	calc_passos(g, r);
+	calc_steps(g, r);
 	r->hit = 0;
 }
 
-void	dar_passo(t_raio *r)
+void	take_step(t_ray *r)
 {
 	if (r->sid_dis_x < r->sid_dis_y)
 	{
@@ -136,14 +134,14 @@ void	dar_passo(t_raio *r)
 	}
 }
 
-void	exec_dda(t_game *g, t_raio *r)
+void	exec_dda(t_game *g, t_ray *r)
 {
 	int	max_steps;
 
 	max_steps = 1000;
 	while (!r->hit && max_steps--)
 	{
-		dar_passo(r);
+		take_step(r);
 		if (g->map.grade[r->map_y][r->map_x] == '1')
 			r->hit = 1;
 	}
@@ -161,7 +159,7 @@ void	exec_dda(t_game *g, t_raio *r)
 		r->per_wll_dis = 1000.0;
 }
 
-void	calc_linha(t_raio *r)
+void	calc_line(t_ray *r)
 {
 	r->line_h = (int)(WIN_H / r->per_wll_dis);
 	r->drw_start = -r->line_h / 2 + WIN_H / 2;
@@ -172,7 +170,7 @@ void	calc_linha(t_raio *r)
 		r->drw_end = WIN_H - 1;
 }
 
-void	escolher_tex(t_raio *r)
+void	choose_tex(t_ray *r)
 {
 	if (r->side == 0)
 	{
@@ -190,7 +188,7 @@ void	escolher_tex(t_raio *r)
 	}
 }
 
-double	calc_wall_x(t_game *g, t_raio *r)
+double	calc_wall_x(t_game *g, t_ray *r)
 {
 	double	wall_x;
 
@@ -202,7 +200,7 @@ double	calc_wall_x(t_game *g, t_raio *r)
 	return (wall_x);
 }
 
-void	calc_tex(t_game *g, t_raio *r, double wX)
+void	calc_tex(t_game *g, t_ray *r, double wX)
 {
 	r->tx_x = (int)(wX * (double)g->tex[r->tex_nu].width);
 	if (r->side == 0 && r->r_dir_x < 0)
@@ -213,7 +211,7 @@ void	calc_tex(t_game *g, t_raio *r, double wX)
 	r->tx_pos = (r->drw_start - WIN_H / 2 + r->line_h / 2) * r->step;
 }
 
-void	draw_wall(t_game *g, int x, t_raio *r)
+void	draw_wall(t_game *g, int x, t_ray *r)
 {
 	int		y;
 	int		cor;

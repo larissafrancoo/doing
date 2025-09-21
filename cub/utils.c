@@ -7,7 +7,7 @@ int	setup_game(t_game *g, const char *path)
 	ft_memset(g, 0, sizeof(t_game));
 	if (open_cub(g, (char *)path))
 		return (error_exit(g, "Error\nOpen_cub falied.", EXIT_F));
-	if (check_integridade(g))
+	if (check_integrity(g))
 		return (error_exit(g, "Error\nFile integrity failure", EXIT_F));
 	g->mlx = mlx_init();
 	if (!g->mlx)
@@ -25,20 +25,20 @@ int	setup_game(t_game *g, const char *path)
 	return (EXIT_S);
 }
 
-int	check_integridade(t_game *g)
+int	check_integrity(t_game *g)
 {
 	if (!g)
 		return (error_msg("Error\nt_game struct don't exist.", EXIT_F));
 	if (!g->config.tex.no || !g->config.tex.so
 		|| !g->config.tex.we || !g->config.tex.ea)
 		return (error_msg("Error\nTexture is missing.", EXIT_F));
-	if (g->config.chao.r < 0 || g->config.chao.r > 255
-		|| g->config.chao.g < 0 || g->config.chao.g > 255
-		|| g->config.chao.b < 0 || g->config.chao.b > 255)
+	if (g->config.floor.r < 0 || g->config.floor.r > 255
+		|| g->config.floor.g < 0 || g->config.floor.g > 255
+		|| g->config.floor.b < 0 || g->config.floor.b > 255)
 		return (error_msg("Error\nInvalid floor color.", EXIT_F));
-	if (g->config.teto.r < 0 || g->config.teto.r > 255
-		|| g->config.teto.g < 0 || g->config.teto.g > 255
-		|| g->config.teto.b < 0 || g->config.teto.b > 255)
+	if (g->config.cell.r < 0 || g->config.cell.r > 255
+		|| g->config.cell.g < 0 || g->config.cell.g > 255
+		|| g->config.cell.b < 0 || g->config.cell.b > 255)
 		return (error_msg("Error\nInvalid celling color", EXIT_F));
 	if (!g->map.grade || g->map.height <= 0 || g->map.width <= 0)
 		return (error_msg("Error\nMap not loaded", EXIT_F));
@@ -81,19 +81,19 @@ int	render_frame(t_game *g)
 {
 	int		x;
 	double	wall_x;
-	t_raio	r;
+	t_ray	r;
 
 	x = -1;
-	if (prepara_frame(g))
+	if (prepare_frame(g))
 		return (error_msg("Error\nFrame preparation failure.", EXIT_F));
-	limpa_bkg(g);
+	clean_bkg(g);
 	x = -1;
 	while (++x < WIN_W)
 	{
-		inicializar_raio(g, x, &r);
+		ray_initialize(g, x, &r);
 		exec_dda(g, &r);
-		calc_linha(&r);
-		escolher_tex(&r);
+		calc_line(&r);
+		choose_tex(&r);
 		wall_x = calc_wall_x(g, &r);
 		calc_tex(g, &r, wall_x);
 		draw_wall(g, x, &r);

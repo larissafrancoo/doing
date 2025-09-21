@@ -1,4 +1,4 @@
-SRCS = main.c utils.c ./parsing/parse.c ./parsing/find_map.c ./parsing/parse_cub.c move.c raycasting.c faxineiros.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
+SRCS = main.c utils.c ./parsing/parse.c ./parsing/find_map.c ./parsing/parse_cub.c move.c raycasting.c cleaners.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 
 NAME = cub3D
 CC = cc

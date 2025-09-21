@@ -185,7 +185,7 @@ static int	check_cell(t_map *map, t_player *p, int i, int j)
 	return (EXIT_S);
 }
 
-int	validar_mapa(t_map *map, t_player *player)
+int	validate_map(t_map *map, t_player *player)
 {
 	int		i;
 	int		j;

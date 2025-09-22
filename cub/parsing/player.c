@@ -58,8 +58,8 @@ int	set_player(t_player *player, int x, int y, char dir)
 	if (player->direction)
 		return (error_msg("Error\nThere is more than one player on the map.",
 				EXIT_F));
-	player->x = x;
-	player->y = y;
+	player->x = x + 0.5;
+	player->y = y + 0.5;
 	player->direction = dir;
 	if (set_direction(player))
 		return (error_msg("Error\nFailed to set direction.", EXIT_F));

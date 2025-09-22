@@ -50,4 +50,7 @@ fclean: clean
 
 re: fclean all
 
+val: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) ./mapas/error5.cub
+
 .PHONY: all clean fclean re bonus

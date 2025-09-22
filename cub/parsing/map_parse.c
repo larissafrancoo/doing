@@ -74,11 +74,15 @@ int	parse_map(char **lines, int start, t_map *map, t_player *p)
 {
 	int	i;
 	int	j;
+	int	o;
 
 	map->height = map_hlen(lines, start);
 	map->grade = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->grade)
 		return (error_msg("Error\nFalied in malloc.", EXIT_F));
+	o = -1;
+	while (++o <= map->height)
+		map->grade[o] = NULL;
 	i = -1;
 	while (++i < map->height)
 		if (parse_map_line(map, lines[start + i], i, p))

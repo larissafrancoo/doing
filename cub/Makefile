@@ -1,5 +1,24 @@
 SRCS = main.c utils.c ./parsing/parse.c ./parsing/find_map.c ./parsing/parse_cub.c move.c raycasting.c cleaners.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 
+SRCS = main.c\
+	   utils.c\
+	   move.c\
+	   ./parsing/read.c\
+	   ./parsing/config_p1.c\
+	   ./parsing/config_p2.c\
+	   ./parsing/player.c\
+	   ./parsing/map_find.c\
+	   ./parsing/map_square.c\
+	   ./parsing/map_parse.c\
+	   ./raycasting/frame.c\
+	   ./raycasting/init.c\
+	   ./raycasting/dda.c\
+	   ./raycasting/draw.c\
+	   ./cleaners/free_utils.c\
+	   ./cleaners/free_exit.c\
+	   ./gnl/get_next_line.c\
+	   ./gnl/get_next_line_utils.c
+
 NAME = cub3D
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g

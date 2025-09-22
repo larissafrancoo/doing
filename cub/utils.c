@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfranco <lfranco@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/22 00:02:58 by lfranco           #+#    #+#             */
+/*   Updated: 2025/09/22 00:03:00 by lfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	setup_game(t_game *g, const char *path)
@@ -74,30 +86,5 @@ int	load_all_texs(t_game *g)
 		return (error_msg("Error\nFalied to load texture WE.", EXIT_F));
 	if (load_tex(g, &g->tex[TEX_EA], g->config.tex.ea))
 		return (error_msg("Error\nFalied to load texture EA.", EXIT_F));
-	return (EXIT_S);
-}
-
-int	render_frame(t_game *g)
-{
-	int		x;
-	double	wall_x;
-	t_ray	r;
-
-	x = -1;
-	if (prepare_frame(g))
-		return (error_msg("Error\nFrame preparation failure.", EXIT_F));
-	clean_bkg(g);
-	x = -1;
-	while (++x < WIN_W)
-	{
-		ray_initialize(g, x, &r);
-		exec_dda(g, &r);
-		calc_line(&r);
-		choose_tex(&r);
-		wall_x = calc_wall_x(g, &r);
-		calc_tex(g, &r, wall_x);
-		draw_wall(g, x, &r);
-	}
-	mlx_put_image_to_window(g->mlx, g->win, g->img.img, 0, 0);
 	return (EXIT_S);
 }

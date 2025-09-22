@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfranco <lfranco@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/22 00:02:46 by lfranco           #+#    #+#             */
+/*   Updated: 2025/09/22 00:02:50 by lfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	can_move_to(t_game *g, double nx, double ny)
@@ -45,7 +57,7 @@ static void	try_move(t_game *g, double vx, double vy)
 int	handle_key(int keycode, t_game *g)
 {
 	if (keycode == KEY_ESC)
-		return (close_game(g));
+		return (game_over(g));
 	if (keycode == KEY_W)
 		try_move(g, g->player.dx * MOVE_SPEED, g->player.dy * MOVE_SPEED);
 	else if (keycode == KEY_S)

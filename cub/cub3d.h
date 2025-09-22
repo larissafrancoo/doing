@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfranco <lfranco@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/22 00:03:07 by lfranco           #+#    #+#             */
+/*   Updated: 2025/09/22 00:03:10 by lfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "./mlx/mlx.h"
@@ -121,12 +133,17 @@ typedef struct s_game
 }	t_game;
 
 int		open_cub(t_game *g, const char *path);
+int		parse_color(char *line, t_color *c);
+char	*parse_texture(char *line);
+int		ft_strcmp(const char *s1, const char *s2);
 char	**read_all_lines(int fd, int *count);
 int		find_map_start(char **lines, int lcount);
 int		parse_config(char **lines, int start_map, t_config *config);
 int		parse_line(char *line, t_config *config);
 int		parse_map(char **lines, int start, t_map *map, t_player *player);
 int		validate_map(t_map *map, t_player *player);
+int		is_player(char c);
+int		set_player(t_player *player, int x, int y, char dir);
 int		check_integrity(t_game *g);
 int		load_tex(t_game *g, t_infos *tex, char *path);
 int		load_all_texs(t_game *g);
@@ -145,12 +162,10 @@ void	free_config(t_config *c);
 void	free_player(t_player *p);
 void	free_all(t_game *g);
 void	destroy_texs(t_game *g);
-int		close_game(t_game *g);
 int		game_over(t_game *g);
 int		error_msg(const char *msg, int code);
 void	free_split(char **s);
 void	my_mlx_pixel_put(t_infos *data, int x, int y, int color);
-void	draw_h_line(t_game *g, int x, int start, int end, int cor);
 int		rgb_to_int(t_color c);
 int		prepare_frame(t_game *g);
 void	clean_bkg(t_game *g);

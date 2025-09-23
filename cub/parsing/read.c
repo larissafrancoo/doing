@@ -91,6 +91,8 @@ int	open_cub(t_game *g, const char *path)
 	close(fd);
 	if (!lines)
 		return (error_msg("Error\nReading .cub failed.", EXIT_F));
+	if (check_structure(lines, lcount))
+		return (free_lines(lines, lcount), EXIT_F);
 	start_map = find_map_start(lines, lcount);
 	if (start_map == -1)
 		return (free_lines(lines, lcount),

@@ -1,7 +1,7 @@
-NO ./texturas/praia/predios.xpm
-SO ./texturas/praia/predios2.xpm
-WE ./texturas/praia/praia.xpm
-EA ./texturas/praia/frente.xpm
+NO ./textures/praia/predios.xpm
+SO ./textures/praia/predios2.xpm
+WE ./textures/praia/praia.xpm
+EA ./textures/praia/frente.xpm
 
 F 41,33,38
 C 86,130,148

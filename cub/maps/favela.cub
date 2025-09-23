@@ -1,0 +1,18 @@
+NO ./textures/favela/casa2.xpm
+SO ./textures/favela/casa.xpm
+WE ./textures/favela/paisagem.xpm
+EA ./textures/favela/muro.xpm
+
+F 81,76,69
+C 119,168,208
+
+1111
+1001111
+1000011
+10011
+10001111
+100001
+10000W1
+100001
+10011
+1111

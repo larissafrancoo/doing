@@ -1,0 +1,15 @@
+NO ./textures/default/azul.xpm
+SO ./textures/default/amarelo.xpm
+WE ./textures/default/verde.xpm
+EA ./textures/default/rosa.xpm
+
+F 251,186,117
+C 229,229,229
+
+111111111
+100000001
+101010101
+1000N0001
+101010101
+100000001
+111111111

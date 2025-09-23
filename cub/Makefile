@@ -1,9 +1,8 @@
-SRCS = main.c utils.c ./parsing/parse.c ./parsing/find_map.c ./parsing/parse_cub.c move.c raycasting.c cleaners.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
-
 SRCS = main.c\
 	   utils.c\
 	   move.c\
 	   ./parsing/read.c\
+	   ./parsing/pre_check.c\
 	   ./parsing/config_p1.c\
 	   ./parsing/config_p2.c\
 	   ./parsing/player.c\
@@ -46,11 +45,11 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) -C $(LIB_DIR) clean
+	$(MAKE) -C $(LIB_DIR) fclean
 
 re: fclean all
 
 val: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) ./mapas/error5.cub
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) ./maps/error0.cub
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re val test_error

@@ -6,7 +6,7 @@
 /*   By: lfranco <lfranco@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 00:03:07 by lfranco           #+#    #+#             */
-/*   Updated: 2025/09/22 00:03:10 by lfranco          ###   ########.fr       */
+/*   Updated: 2025/09/22 19:27:51 by lfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,6 @@ double	calc_wall_x(t_game *g, t_ray *r);
 void	calc_tex(t_game *g, t_ray *r, double wX);
 void	draw_wall(t_game *g, int x, t_ray *r);
 int		render_frame(t_game *g);
+int		check_structure(char **lines, int lcount);
 
 #endif

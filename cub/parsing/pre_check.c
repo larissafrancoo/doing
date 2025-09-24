@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-static int	check_extension(const char *path, char *ext)
+int	check_extension(const char *path, char *ext)
 {
 	int	i;
 	int	j;
@@ -27,10 +27,25 @@ static int	check_extension(const char *path, char *ext)
 	return (EXIT_S);
 }
 
+static int	check_rgb(const char *line)
+{
+	char	**rgb;
+
+	rgb = ft_split(line, ',');
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (free_split(rgb), EXIT_F);
+	if (!rgb[0][0] || !rgb[1][0] || !rgb[2][0])
+		return (free_split(rgb), EXIT_F);
+	if ((ft_atoi(rgb[0]) < 0 || ft_atoi(rgb[0]) > 255)
+		|| (ft_atoi(rgb[0]) < 0 || ft_atoi(rgb[0]) > 255)
+		|| (ft_atoi(rgb[0]) < 0 || ft_atoi(rgb[0]) > 255))
+		return (free_split(rgb), EXIT_F);
+	return (free_split(rgb), EXIT_S);
+}
+
 static int	check_texture_line(char *line, char *config)
 {
 	char	**tokens;
-	int		ret;
 
 	tokens = ft_split(line, ' ');
 	if (!tokens || !tokens[0] || !tokens[1] || tokens[2])
@@ -46,12 +61,13 @@ static int	check_texture_line(char *line, char *config)
 static int	check_color_line(char *line, char *config)
 {
 	char	**tokens;
-	int		ret;
 
 	tokens = ft_split(line, ' ');
 	if (!tokens || !tokens[0] || !tokens[1] || tokens[2])
 		return (free_split(tokens), EXIT_F);
 	if (ft_strcmp(tokens[0], config) != 0)
+		return (free_split(tokens), EXIT_F);
+	if (check_rgb(tokens[1]))
 		return (free_split(tokens), EXIT_F);
 	free_split(tokens);
 	return (EXIT_S);

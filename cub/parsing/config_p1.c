@@ -47,7 +47,8 @@ int	parse_color(char *line, t_color *c)
 				EXIT_F));
 	rgb = ft_split(line, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
-		return (error_msg("Error\nInvalid color format.",
+		return (free_split(rgb),
+			error_msg("Error\nInvalid color format.",
 				EXIT_F));
 	c->r = ft_atoi(rgb[0]);
 	c->g = ft_atoi(rgb[1]);

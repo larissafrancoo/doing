@@ -1,7 +1,7 @@
-NO ./textures/direc/norte.xpm
-SO ./textures/direc/sul.xpm
-WE ./textures/direc/oeste.xpm
-EA ./textures/direc/leste.xpm
+NO ./texturas/direc/norte.xpm
+SO ./texturas/direc/sul.xpm
+WE ./texturas/direc/oeste.xpm
+EA ./texturas/direc/leste.xpm
 
 F 220,100,0
 C 90,150,195

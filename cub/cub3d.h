@@ -182,5 +182,6 @@ void	calc_tex(t_game *g, t_ray *r, double wX);
 void	draw_wall(t_game *g, int x, t_ray *r);
 int		render_frame(t_game *g);
 int		check_structure(char **lines, int lcount);
+int		check_extension(const char *path, char *ext);
 
 #endif

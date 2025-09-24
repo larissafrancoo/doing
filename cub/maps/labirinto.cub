@@ -1,7 +1,7 @@
-NO ./textures/biblioteca/estante1.xpm
-SO ./textures/biblioteca/estante1.xpm
-WE ./textures/biblioteca/estante2.xpm
-EA ./textures/biblioteca/estante2.xpm
+NO ./texturas/biblioteca/estante1.xpm
+SO ./texturas/biblioteca/estante1.xpm
+WE ./texturas/biblioteca/estante2.xpm
+EA ./texturas/biblioteca/estante2.xpm
 
 F 85,53,33
 C 30,19,12

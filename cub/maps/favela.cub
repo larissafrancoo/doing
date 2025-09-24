@@ -1,7 +1,7 @@
-NO ./textures/favela/casa2.xpm
-SO ./textures/favela/casa.xpm
-WE ./textures/favela/paisagem.xpm
-EA ./textures/favela/muro.xpm
+NO ./texturas/favela/casa2.xpm
+SO ./texturas/favela/casa.xpm
+WE ./texturas/favela/paisagem.xpm
+EA ./texturas/favela/muro.xpm
 
 F 81,76,69
 C 119,168,208

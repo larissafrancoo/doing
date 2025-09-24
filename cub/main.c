@@ -33,6 +33,12 @@ int	main(int ac, char **av)
 			"Usage: %s <map_path.cub>\n", av[0]);
 		return (EXIT_F);
 	}
+	if (check_extension(av[1], ".cub"))
+	{
+		fprintf(stderr, "Error\nIncorrect entry."
+			"Usage: %s <map_path.cub>\n", av[0]);
+		return (EXIT_F);
+	}
 	if (init_game(&g, av[1]))
 		return (EXIT_F);
 	mlx_hook(g.win, 17, 0, game_over, &g);
